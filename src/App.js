@@ -1,23 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import ImageCard from './components/ImageCard'
+import ScoreCard from './components/ScoreCard';
+import styled from 'styled-components';
+
+const Container=styled.div`
+width: 75%;
+text-align: center;
+margin: 100px 150px;
+padding: 25px;
+`
+const ScoreBox={
+  border: "5px solid red",
+  margin: "100px 150px",
+  padding: "25px"
+
+}
+
+const ImageBox={
+  border: "5px solid red",
+  margin: "100px 150px",
+  padding: "25px"
+}
+
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Container>
+      <div style={ScoreBox}>  
+        <span style={{color:'red',backgroundColor:'black',marginRight:'720px'}}>computer</span>
+        <span>user</span>
+      <ScoreCard/>
+      </div>
+      <div style={ImageBox}>
+      <ImageCard/>
+      </div>
+      </Container>
+      
     </div>
   );
 }
