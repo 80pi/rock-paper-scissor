@@ -1,11 +1,22 @@
 import React from 'react'
+import { connect } from 'react-redux'
 
-function ScoreCard() {
+function ScoreCard({data}) {    
+    const humanData=data.humanValue
+    const computerData=data.computerValue
     return (
         <div>
-             score
+             <div style={{float:'right'}}>{humanData}/10</div>
+             <div style={{float:'left'}}>{computerData}/10</div>
         </div>
     )
 }
 
-export default ScoreCard
+const mapStateToProps=store=>{
+    console.log('data in store be',store.allReducer);
+    return{
+        data:store.allReducer
+    }
+}
+
+export default connect(mapStateToProps)(ScoreCard)

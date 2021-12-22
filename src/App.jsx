@@ -1,6 +1,7 @@
 import ImageCard from './components/ImageCard'
 import ScoreCard from './components/ScoreCard';
 import styled from 'styled-components';
+import computerGif from './img/computer.gif';
 
 const Container=styled.div`
 width: 75%;
@@ -28,9 +29,9 @@ function App() {
     <div>
       <Container>
       <div style={ScoreBox}>  
-        <span style={{color:'red',backgroundColor:'black',marginRight:'720px'}}>computer</span>
-        <span>user</span>
+        <span style={{float:'left',display:'flex',left:'auto',fontFamily:'fantasy'}}><img style={{display:'flex',width:'70px',height:'30px'}} src={computerGif} alt="computer gif"/></span>
       <ScoreCard/>
+        <span style={{float:'right',fontFamily:'fantasy'}}>user &nbsp;</span>
       </div>
       <div style={ImageBox}>
       <ImageCard/>
