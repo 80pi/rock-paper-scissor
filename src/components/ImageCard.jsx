@@ -2,51 +2,67 @@ import React,{useState} from 'react'
 import rock from '../img/rock.gif'
 import paper from '../img/paper.gif'
 import scissor from '../img/scissor.gif'
-import Button from 'react-bootstrap/Button';
+import {Button} from 'react-bootstrap'
 import { connect } from 'react-redux';
-import {humanAddValue,computerAddValue} from '../redux/action/actions'
+import {humanAddValue,computerAddValue,drawValue,resetValue} from '../redux/action/actions'
 
 
+function ImageCard({ humanAddFunction, computerAddFunction, drawFunction,resetFunction ,data}) {
+    const [humanScore, setHumanScore] = useState(1)
+    const [computerScore, setComputerScore] = useState(1)
+    const [disable, setDisable] = React.useState(false);
 
-
-
-
-function ImageCard({humanAddValue,computerAddValue}) {
-    const {humanScore,setHumanScore}=useState(0)
-    const {computerScore,setComputerScore}=useState(0)
-
-    const handleClick=(dd)=>{    
-        const systemData=Math.floor(Math.random()*3)
-        console.log('both values',systemData,dd);
-        if((systemData===0 && dd===1) || (systemData===2 && dd===0) || (systemData===1 && dd===2)){
-            console.log('user wins');
-            {()=>setHumanScore(humanScore+1)}
-            console.log('humanscore be',humanScore);
-            humanAddValue(1)
-            computerAddValue(0)
-        } else if((systemData===1 && dd===0) || (systemData===0 && dd===2) || (systemData===2 && dd===1)){
-            console.log('system wins');
-            computerAddValue(1)
-            humanAddValue(0)
-        } else{
+    const handleClick = (dd) => {
+        const systemData = Math.floor(Math.random() * 3)
+        if ((systemData === 0 && dd === 1) || (systemData === 2 && dd === 0) || (systemData === 1 && dd === 2)) {
+            setHumanScore(prevCount=>prevCount+1)
+            humanAddFunction({data:humanScore,result:'User Win'})
+        } else if ((systemData === 1 && dd === 0) || (systemData === 0 && dd === 2) || (systemData === 2 && dd === 1)) {
+            setComputerScore(prevCount=>prevCount+1)
+            computerAddFunction({data:computerScore,result:'Computer Win'})
+        } else {
             console.log('draw');
+            drawFunction('Draw')
         }
+        if(humanScore===10 || computerScore===10){
+            if(humanScore===10){
+                drawFunction('User Win')
+            }else{
+                drawFunction('System Wins')
+            }
+            setDisable(prevCount=>!prevCount)
+        }
+    }
+    const reset=()=>{
+        resetFunction({data:'0',result:'Start the game'})
+        setHumanScore(prevCount=>prevCount-(prevCount-1))
+        setComputerScore(prevCount=>prevCount-(prevCount-1))
+        setDisable(prevCount=>!prevCount)
+
     }
 
     return (
         <div>
-            <Button style={{backgroundColor:'white'}} onClick={()=>handleClick(0,humanAddValue,computerAddValue)}><img src={rock} alt="rock" width="100px" /></Button>
-            <Button style={{backgroundColor:'white',margin:'25px'}} onClick={()=>handleClick(1,humanAddValue,computerAddValue)}><img src={paper} alt="paper" width="80px" /></Button>
-            <Button style={{backgroundColor:'white'}} onClick={()=>handleClick(2,humanAddValue,computerAddValue)}><img src={scissor} alt="scissor" width="80px" /></Button>
-            
+            <Button disabled={disable} variant="outline-dark" style={{ backgroundColor: 'white' }} onClick={() => handleClick(0)}><img src={rock} alt="rock" width="100px" /></Button>
+            <Button disabled={disable}  variant="outline-dark"style={{ backgroundColor: 'white', margin: '25px' }} onClick={() => handleClick(1)}><img src={paper} alt="paper" width="80px" /></Button>
+            <Button disabled={disable} variant="outline-dark" style={{ backgroundColor: 'white' }} onClick={() => handleClick(2)}><img src={scissor} alt="scissor" width="80px" /></Button>
+
+            <br /><Button variant="primary" disabled={!disable} onClick={()=>{reset()}}>Restart the Game</Button>
+
         </div>
-       
+
     )
 }
 
-const mapDispatchToProps={
-    humanAddValue,
-    computerAddValue
+
+const mapDispatchToProps = (dispatch)=>{
+    return {
+        humanAddFunction: (data)=>dispatch(humanAddValue(data)),
+        computerAddFunction: (data)=> dispatch(computerAddValue(data)),
+        drawFunction:(data)=>dispatch(drawValue(data)),
+        resetFunction:(data)=>dispatch(resetValue(data))
+    }
 }
 
-export default connect(null,mapDispatchToProps)(ImageCard)
+
+export default connect(null, mapDispatchToProps)(ImageCard)

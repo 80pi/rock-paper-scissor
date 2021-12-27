@@ -1,2 +1,6 @@
 export const HUMAN_ADD_VALUE="HUMAN_ADD_VALUE";
 export const COMPUTER_ADD_VALUE="COMPUTER_ADD_VALUE";
+export const DRAW_SCORE="DRAW_SCORE";
+export const RESET="RESET";
+export const USERNAME="USERNAME"
+
